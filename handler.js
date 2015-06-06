@@ -16,11 +16,13 @@ var wechat = new Wechat(opt);
 
 
 function getWeixin(req,res){
-	wechat.verifyRequest(req,res).bind(wechat);
+	var bindFunc = wechat.verifyRequest(req,res).bind(wechat);
+	bindFunc(req,res);
 }
 
 function postWeixin(req,res){
-	wechat.handleRequest(req,res).bind(wechat);
+	var bindFunc = wechat.handleRequest(req,res).bind(wechat);
+	bindFunc(req,res);
 }
 
 
