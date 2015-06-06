@@ -21,7 +21,7 @@ function sendWebSocket(){
 		}
 	    console.log('received: %s', message);
 
-	    io.send(JSON.stringify(sendJSON));
+	    // io.send(JSON.stringify(sendJSON));
 	});
 	io.on('close', function() {
 		console.log('end');

@@ -36,6 +36,8 @@ wechat.on('text', function(session) {
      var nickname = json.FromUserName;
      var content = json.Content;
 
+     console.log(content);
+
      var result = {
      	nickname: nickname,
      	content: content
@@ -61,8 +63,6 @@ wechat.on('image', function(session) {
 
 
       var imageBase64 = new Buffer(res.body, 'base64').toString()
-      console.log(imageBase64);
-
    });
 
 
