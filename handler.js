@@ -76,15 +76,9 @@ wechat.on('voice', function(session) {
 	wss.on('connection', function connection(ws) {
 		console.log('WebSocket start!');
 
-		var sendBullet = function(bullet){
-			var sendJSON = bullet;
-			ws.send(JSON.stringify(sendJSON));//加入判断
-		};
 		var heartTimer = setInterval(function(){
 			ws.send('');//发送心跳包防止WebSocket断开
 		},1000*60*3);
-
-		emitter.addListener('bullet come',sendBullet);//加入对字幕请求的监听器
 
 		// getTime(uuid,function(time){
 		// 	getBullet(time,function(results){
@@ -109,11 +103,17 @@ wechat.on('voice', function(session) {
 		});
 
 		ws.on('close', function close(){
-			emitter.removeListener('bullet come',sendBullet);//取消监听器
 			clearInterval(heartTimer);//取消心跳包
 			// saveTime(uuid);
 		})
 	});
+	wss.broadcast = function broadcast(data) {
+		wss.clients.forEach(function each(client) {
+			client.send(data);
+		});
+	};
+
+	emitter.addListener('bullet come',broadcast);//加入对字幕请求的监听器
 })();
 
 
