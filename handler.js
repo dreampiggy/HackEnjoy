@@ -239,7 +239,7 @@ function checkBullet (results){
 			return random(3000,4000);
 		}
 	})();
-	var fontsize = (duration / 1000) - 2;
+	var fontsize = (random(3000,5000) / 1000) - 2;
 
 	bullet.type = type;
 	bullet.color = color;
