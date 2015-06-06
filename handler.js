@@ -26,20 +26,17 @@ function postWeixin(req,res){
 
 
 wechat.on('text', function(session) {
-  var json = session.incomingMessage;
-     var nickname = json.FromUserName;
-     var content = json.Content;
-     console.log(content);
+	var json = session.incomingMessage;
+	var nickname = json.FromUserName;
+	var content = json.Content;
 
-     var result = {
-     	nickname: nickname,
-     	content: content
-     }
-     var bullet = checkBullet(result);
+	var bullet = {
+		nickname: nickname,
+		content: content
+	}
 
-     saveBullet(bullet);
-     emitter.emit('bullet come',bullet);
-     session.replyTextMessage('文字弹幕已上膛发射！');
+	emitter.emit('bullet come',bullet);
+	session.replyTextMessage('文字弹幕已上膛发射！');
 });
 
 wechat.on('image', function(session) {
