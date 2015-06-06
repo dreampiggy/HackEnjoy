@@ -107,11 +107,12 @@ wechat.on('voice', function(session) {
 			// saveTime(uuid);
 		})
 	});
-	wss.broadcast = function broadcast(data) {
+	function broadcast(data) {
 		wss.clients.forEach(function each(client) {
 			client.send(data);
 		});
-	};
+	}
+	wss.broadcast = broadcast;
 
 	emitter.addListener('bullet come',broadcast);//加入对字幕请求的监听器
 })();
