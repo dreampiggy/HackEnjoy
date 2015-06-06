@@ -1,8 +1,9 @@
-var io = require('socket.io/node_modules/socket.io-client/index.js')('http://123.57.143.92:3000/');
+var WebSocket = require('ws')
+  , ws = new WebSocket('ws://123.57.143.92:3000');
 var request = require('superagent');
 
 function sendWebSocket(){
-	io.on('connect', function() {
+	ws.on('open', function() {
 		console.log('open!');
 		var random = Math.floor(Math.random() * ( 100 + 1));
 		var randomCard = 100 + Math.floor(Math.random() * (999 + 1));
@@ -10,9 +11,9 @@ function sendWebSocket(){
 			content : '吃我弹幕炸弹' + random + '号',
 			nickname : '213133' + randomCard
 		}
-	    io.send(JSON.stringify(sendJSON));
+	    ws.send(JSON.stringify(sendJSON));
 	});
-	io.on('message', function(message) {
+	ws.on('message', function(message) {
 		var random = Math.floor(Math.random() * ( 100 + 1));
 		var randomCard = 100 + Math.floor(Math.random() * (999 + 1));
 		var sendJSON = {
@@ -21,9 +22,9 @@ function sendWebSocket(){
 		}
 	    console.log('received: %s', message);
 
-	    // io.send(JSON.stringify(sendJSON));
+	    // ws.send(JSON.stringify(sendJSON));
 	});
-	io.on('close', function() {
+	ws.on('close', function() {
 		console.log('end');
 	});
 }
