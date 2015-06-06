@@ -80,7 +80,7 @@ wechat.on('text', function(session) {
 	var bullet = checkBullet(result);
 
 	emitter.emit('bullet come',bullet);
-	// session.replyTextMessage('文字弹幕已上膛发射！');
+	session.replyTextMessage('文字弹幕已上膛发射！');
 });
 
 wechat.on('image', function(session) {
@@ -324,7 +324,7 @@ function getTime (clientID,callback){
 
 
 function random (min,max) {
-	return min + Math.floor(Math.random() * ( max + 1));
+	return Math.ceil(Math.random()*(max-min)+min);
 }
 
 
