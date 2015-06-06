@@ -115,10 +115,6 @@ wechat.on('voice', function(session) {
 
 
 function getLuck (req,res) {
-	if (!req.body){
-		res.status(403).end();
-		return;
-	}
 	getRandomID(function(result){
 		res.end(result);//发送抽奖结果
 	})
