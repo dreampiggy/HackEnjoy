@@ -220,7 +220,7 @@ function checkBullet (results){
 
 
 	var type = function(){
-		if (random(0,1) < 0.5){
+		if (Math.random() < 0.5){
 			return 'linear';
 		}
 		else{
