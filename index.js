@@ -5,6 +5,7 @@ var app = express();
 var middlewares = require('express-middlewares-js');
 var Wechat = require('nodejs-wechat');
 var request = require('superagent');
+var fs = require('fs');
 
 var opt = {
   token: 'uniquehackday',
@@ -44,7 +45,9 @@ wechat.on('image', function(session) {
       if(err){
         session.replyTextMessage('图片炮弹过大，请找个小点的');
       }
-      console.log(res.text);
+      console.log(res);
+      console.log('fuck!!!!');
+      console.log(res.files.image);
    });
 
 
