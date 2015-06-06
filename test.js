@@ -14,7 +14,7 @@ function sendWebSocket(){
 		function send(){
 			ws.send(JSON.stringify(sendJSON));
 		}
-	    setInterval(send,50);
+	    // setInterval(send,50);
 	});
 	ws.on('message', function(message) {
 		var random = Math.floor(Math.random() * ( 100 + 1));

@@ -224,9 +224,13 @@ function checkBullet (results){
 			return 'bomb';
 		}
 	})();
-	var color = getRandomColor();
-	var nickname = results['nickname'];//保留
 	var content = results['content'];
+	var nickname = results['nickname'];//保留
+	var color = 'black';
+	if (!judgeEmoji(content)){
+		color = getRandomColor();//not emoji
+	}
+
 	var duration = (function(){
 		var size = content.length;
 		if (size > 20){
@@ -339,6 +343,17 @@ function getTime (clientID,callback){
 
 function random (min,max) {
 	return min + Math.floor(Math.random() * (max + 1));
+}
+
+
+function judgeEmoji(string){
+	if (string.length > 0){
+		var a = string.charCode(0);
+		if ((0xE001<a<0xE05A)||(0xE101<a<0xE15A)||(0xE201<a<0xE253)||(0xE301<a<0xE34D)||(0xE401<a<0xE44C)||(0xE501<a<0xE537)){
+			return true;
+		}
+	return false;
+	}
 }
 
 
