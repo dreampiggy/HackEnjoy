@@ -220,8 +220,12 @@ function checkBullet (results){
 
 
 	var type = function(){
-		var innerType = ['linear','bomb'];
-		return innerType[random(0,1)];
+		if (random(0,1) < 0.5){
+			return 'linear';
+		}
+		else{
+			return 'bomb';
+		}
 	}
 	var color = getRandomColor();
 	var nickname = results['nickname'];//保留
