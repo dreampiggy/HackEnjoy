@@ -78,7 +78,7 @@ wechat.on('voice', function(session) {
 			getBullet(time,function(results){
 				if (results){
 					for (var i = 0; i < results.length; i++) {
-						var bullet = checkBullet(results[i]['time']);
+						var bullet = checkBullet(results[i]);
 						ws.send(JSON.stringify(bullet));
 					};
 				}
