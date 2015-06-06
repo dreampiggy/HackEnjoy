@@ -43,7 +43,7 @@ wechat.on('text', function(session) {
 wechat.on('image', function(session) {
 	var picurl = session.incomingMessage.PicUrl;
 	var nickname = session.incomingMessage.FromUserName;
-	console.log(picurl);
+
 	var preBullet = {
 		nickname: nickname,
 		type: 'image',
@@ -57,7 +57,6 @@ wechat.on('image', function(session) {
 });
 
 wechat.on('voice', function(session) {
-  console.log(session);
   session.replyTextMessage('语音炸弹将高空落下！');
 });
 
@@ -66,8 +65,8 @@ wechat.on('voice', function(session) {
 	wss.on('connection', function connection(ws) {
 		console.log('WebSocket start!');
 		var sendBullet = function(bullet){
-			var sendJSON = bullet;
-			ws.send(JSON.stringify(sendJSON));//加入判断
+			console.log(bullet);
+			ws.send(JSON.stringify(bullet));
 		};
 		var heartTimer = setInterval(function(){
 			ws.send('');//发送心跳包防止WebSocket断开
@@ -89,7 +88,6 @@ wechat.on('voice', function(session) {
 		});
 
 		ws.on('message', function incoming(message) {
-			console.log(message);
 			try{
 				message = JSON.parse(message);
 				var result = checkBullet(message);
