@@ -69,7 +69,15 @@ wechat.on('voice', function(session) {
 			ws.send(JSON.stringify(bullet));
 		};
 		var heartTimer = setInterval(function(){
-			ws.send('');//发送心跳包防止WebSocket断开
+			var empty = {
+			  type: "text",
+			  color : "",
+			  fontsize : "",
+			  content : "",
+			  duration : "",
+			  nickname : ""
+			};
+			ws.send(empty);//发送心跳包防止WebSocket断开
 		},1000*60*3);
 
 		emitter.addListener('bullet come',sendBullet);//加入对字幕请求的监听器
