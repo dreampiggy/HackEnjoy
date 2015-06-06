@@ -29,7 +29,6 @@ wechat.on('text', function(session) {
   var json = session.incomingMessage;
      var nickname = json.FromUserName;
      var content = json.Content;
-
      console.log(content);
 
      var result = {
@@ -101,7 +100,7 @@ wechat.on('voice', function(session) {
 				}
 			}
 			catch (e){
-				console.log('fuck');
+				console.log('Not legal bullet');
 			}
 		});
 
@@ -188,7 +187,7 @@ function saveBullet (bullet) {
 		return;
 	}
 
-	var time = bullet.time;
+	var time = Math.round(new Date().getTime()/1000);
 	var nickname = bullet.nickname;
 	var content = bullet.content;
 
@@ -196,6 +195,7 @@ function saveBullet (bullet) {
 		[time,nickname,content],
 		function(err, results) {
 		if (err){
+			console.log('error at saveBullet')
 			console.log(err);
 		}
 		else{
@@ -207,6 +207,7 @@ function saveBullet (bullet) {
 		[nickname],
 		function(err,results){
 		if(err){
+			console.log('err at insert user');
 			console.log(err);
 		}
 		else{
@@ -220,6 +221,7 @@ function getBullet (time,callback){
 		[time],//最多会取最近的10条
 		function(err,results){
 		if (err){
+			console.log('error at getBullet');
 			console.log(err);
 			callback(null);
 		}
@@ -239,6 +241,7 @@ function saveTime (clientID){
 		[clientID,time,clientID,time],
 		function(err,results){
 		if (err){
+			console.log('error at saveTime');
 			console.log(err);
 		}
 		else{
@@ -253,6 +256,7 @@ function getTime (clientID,callback){
 		[clientID],
 		function(err,results){
 		if (err){
+			console.log('error at getTime');
 			callback(time);
 		}
 		else if (!results || results.length == 0){
