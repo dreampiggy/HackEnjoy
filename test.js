@@ -11,7 +11,10 @@ function sendWebSocket(){
 			content : '吃我弹幕炸弹' + random + '号',
 			nickname : '213133' + randomCard
 		}
-	    ws.send(JSON.stringify(sendJSON));
+		function send(){
+			ws.send(JSON.stringify(sendJSON));
+		}
+	    setInterval(send,50);
 	});
 	ws.on('message', function(message) {
 		var random = Math.floor(Math.random() * ( 100 + 1));
@@ -50,5 +53,4 @@ function sendHTTP(){
 	});
 }
 
-// setInterval(sendHTTP,100);//每0.1秒模拟发送1个字幕
 sendWebSocket();//启动WebSocket
