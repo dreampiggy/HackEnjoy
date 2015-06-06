@@ -1,6 +1,7 @@
 var connection = require('./config');
 var request = require('superagent');
 var events = require("events");
+var WebSocket = require('ws');
 var WebSocketServer = WebSocket.Server
 var wss = new WebSocketServer({ port: 3000 });
 var Wechat = require('nodejs-wechat');
