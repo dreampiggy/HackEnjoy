@@ -12,7 +12,7 @@ var opt = {
   url: '/weixin'
 };
 var wechat = new Wechat(opt);
-
+var uuid = '0000000001';//uuid 客户端提供
 
 function getWeixin(req,res){
 	var bindFunc = wechat.verifyRequest.bind(wechat);
@@ -108,7 +108,7 @@ wechat.on('voice', function(session) {
 		ws.on('close', function close(){
 			emitter.removeListener('bullet come',sendBullet);//取消监听器
 			clearInterval(heartTimer);//取消心跳包
-			// saveTime(uuid);
+			saveTime(uuid);
 		})
 	});
 })();
