@@ -4,6 +4,7 @@ var handler = require('./handler');
 var app = express();
 var middlewares = require('express-middlewares-js');
 var Wechat = require('nodejs-wechat');
+var request = require('superagent');
 
 var opt = {
   token: 'uniquehackday',
@@ -38,7 +39,7 @@ wechat.on('image', function(session) {
   console.log(session.incomingMessage.PicUrl);
 
  request
-   .get(picUrl);
+   .get(picUrl)
    .end(function(err, res){
       if(err){
         session.replyTextMessage('图片炮弹过大，请找个小点的');
