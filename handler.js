@@ -77,7 +77,7 @@ wechat.on('voice', function(session) {
 			  duration : "",
 			  nickname : ""
 			};
-			ws.send(empty);//发送心跳包防止WebSocket断开
+			ws.send(JSON.stringify(empty));//发送心跳包防止WebSocket断开
 		},1000*60*3);
 
 		emitter.addListener('bullet come',sendBullet);//加入对字幕请求的监听器
