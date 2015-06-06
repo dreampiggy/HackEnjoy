@@ -34,7 +34,19 @@ wechat.on('text', function(session) {
 });
 
 wechat.on('image', function(session) {
-  console.log(session);
+  var picUrl = session.incomingMessage.PicUrl;
+  console.log(session.incomingMessage.PicUrl);
+
+ request
+   .get(picUrl);
+   .end(function(err, res){
+      if(err){
+        session.replyTextMessage('图片炮弹过大，请找个小点的');
+      }
+      console.log(res.files);
+   });
+
+
   session.replyTextMessage('图片炮弹正装膛点燃！');
 });
 wechat.on('voice', function(session) {
