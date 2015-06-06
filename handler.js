@@ -79,7 +79,7 @@ wechat.on('voice', function(session) {
 				if (results){
 					for (var i = 0; i < results.length; i++) {
 						results[i]['time'] = null;
-						ws.send(results[i]);
+						ws.send(JSON.stringify(results[i]));
 					};
 				}
 			});
