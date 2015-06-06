@@ -11,7 +11,7 @@
  Target Server Version : 50542
  File Encoding         : utf-8
 
- Date: 06/07/2015 02:04:12 AM
+ Date: 06/07/2015 02:16:33 AM
 */
 
 SET NAMES utf8;
@@ -27,7 +27,7 @@ CREATE TABLE `bullet` (
   `nickname` varchar(255) DEFAULT NULL,
   `content` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `client`
@@ -37,17 +37,16 @@ CREATE TABLE `client` (
   `id` bigint(11) unsigned NOT NULL AUTO_INCREMENT,
   `time` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `user`
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `id` bigint(11) NOT NULL AUTO_INCREMENT,
   `count` bigint(11) DEFAULT NULL,
-  `nickname` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+  `nickname` varchar(255) NOT NULL,
+  PRIMARY KEY (`nickname`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;

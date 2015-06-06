@@ -216,7 +216,7 @@ function saveBullet (bullet) {
 
 function getBullet (time,callback){
 	connection.query('SELECT time,nickname,content FROM bullet WHERE time > ? ORDER BY id DESC LIMIT 5',
-		[time],//最多会取最近的10条
+		[time],//最多会取最近的5条
 		function(err,results){
 		if (err){
 			console.log('error at getBullet');
