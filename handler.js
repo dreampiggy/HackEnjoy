@@ -72,18 +72,16 @@ wechat.on('voice', function(session) {
 			ws.send('');//发送心跳包防止WebSocket断开
 		},1000*60*3);
 
-		ws.on('open', function open(){
-			emitter.addListener('bullet come',sendBullet);//加入对字幕请求的监听器
+		emitter.addListener('bullet come',sendBullet);//加入对字幕请求的监听器
 
-			getTime(uuid,function(time){
-				getBullet(time,function(results){
-					if (results){
-						for (var i = 0; i < results.length; i++) {
-							results[i]['time'] = null;
-							ws.send(results[i]);
-						};
-					}
-				});
+		getTime(uuid,function(time){
+			getBullet(time,function(results){
+				if (results){
+					for (var i = 0; i < results.length; i++) {
+						results[i]['time'] = null;
+						ws.send(results[i]);
+					};
+				}
 			});
 		});
 
