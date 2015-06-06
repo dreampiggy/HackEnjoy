@@ -22,31 +22,25 @@ app.post('/weixin', wechat.handleRequest.bind(wechat));
 
 wechat.on('text', function(session) {
   var json = session.incomingMessage;
-  console.log(json);
-  session.replyTextMsg('发送成功!');
+     // ToUserName: 'gh_e5efdd82c3d4',
+     // FromUserName: 'oH_xis15rtTiWz88QL4AwWKrZEFg',
+     // CreateTime: '1433582707',
+     // MsgType: 'text',
+     // Content: '5',
+     // MsgId: '6157190842889486224',
+     // Encrypt: '加密垃圾'}
+
+     session.replyTextMessage('文字弹幕已上膛发射！');
 });
+
 wechat.on('image', function(session) {
-  session.replyNewsMsg([{
-    Title: '新鲜事',
-    Description: '点击查看今天的新鲜事',
-    PicUrl: 'http://..',
-    Url: 'http://..'
-  }]);
+  console.log(session);
+  session.replyTextMessage('图片炮弹正装膛点燃！');
 });
 wechat.on('voice', function(session) {
-  session.replyMsg({
-    Title: 'This is Music',
-    MsgType: 'music',
-    Description: 'Listen to this music and guess ths singer',
-    MusicUrl: 'http://..',
-    HQMusicUrl: 'http://..',
-    ThumbMediaId: '..'
-  });
+  console.log(session);
+  session.replyTextMessage('语音炸弹将高空落下！');
 });
-
-
-
-app.post('/', handler.acceptBullet);
 
 // app.post('/luck',handler.getLuck);
 

@@ -96,13 +96,11 @@ var emitter = new events.EventEmitter();
 // }
 
 
-function acceptBullet(req,res){
-	if (!req.body){
-		res.status(403).end();
-		return;
-	}
+function acceptBullet(fileType, content){
 
-	var bullet = checkBullet(req.body);
+	var bullet = 'fuck';
+	
+	// var bullet = checkBullet(req.body);
 
 	console.log(req.body);
 

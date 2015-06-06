@@ -3,8 +3,8 @@ function connect(){
 	var connection = mysql.createConnection({
 		host     : 'localhost',
 		user     : 'root',
-		password : '1234',
-		database : 'herald_bullet_screen',
+		password : '123456',
+		database : 'herald_bullet',
 	});
 
 	connection.connect(function(err) {
