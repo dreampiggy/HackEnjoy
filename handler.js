@@ -236,7 +236,7 @@ function getBullet (time,callback){
 function saveTime (clientID){
 	var time = Math.round(new Date().getTime()/1000);
 	connection.query('INSERT INTO client SET id = ?,time = ? ON DUPLICATE KEY UPDATE time = ?',
-		[clientID,time,clientID,time],
+		[clientID,time,time],
 		function(err,results){
 		if (err){
 			console.log('error at saveTime');
