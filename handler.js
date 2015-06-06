@@ -38,8 +38,8 @@ function refreshToken(){
 	}
 }
 
-refreshToken();
-setInterval(refreshToken,1000*60*60*2);
+// refreshToken();
+// setInterval(refreshToken,1000*60*60*2);
 
 
 function getWeixin(req,res){
