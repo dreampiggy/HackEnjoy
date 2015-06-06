@@ -216,18 +216,18 @@ function checkBullet (results){
 
 	console.log(results['content']);
 
-	var type = function(){
+	var type = (function(){
 		if (Math.random() < 0.75){
 			return 'linear';
 		}
 		else{
 			return 'bomb';
 		}
-	}
+	})();
 	var color = getRandomColor();
 	var nickname = results['nickname'];//保留
 	var content = results['content'];
-	var duration = function(){
+	var duration = (function(){
 		var size = content.length;
 		if (size > 20){
 			return random(5000,6000);
@@ -238,14 +238,14 @@ function checkBullet (results){
 		else{
 			return random(3000,4000);
 		}
-	}
+	})();
 	var fontsize = (duration / 1000) - 2;
 
-	bullet.type = type();
+	bullet.type = type;
 	bullet.color = color;
 	bullet.fontsize = fontsize;
 	bullet.content = content;
-	bullet.duration = duration();
+	bullet.duration = duration;
 	bullet.nickname = nickname
 
 	return bullet;
