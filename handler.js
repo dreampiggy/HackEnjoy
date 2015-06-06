@@ -107,7 +107,7 @@ wechat.on('voice', function(session) {
 (function websocket(){
 	wss.on('connection', function connection(ws) {
 		console.log('WebSocket start!');
-		var sendBullet = function(bullet){
+		function sendBullet(bullet){
 			console.log(bullet);
 			ws.send(JSON.stringify(bullet));
 		};
