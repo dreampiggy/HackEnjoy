@@ -63,10 +63,11 @@ wechat.on('image', function(session) {
 
       var imageBase64 = new Buffer(res.body, 'base64').toString();
 
-      var bullet = checkBullet({
-      	type: "image",
+      var preBullet = {
+      	type: 'image',
       	base64: imageBase64
-      })
+      };
+      var bullet = checkBullet(preBullet);
 
   	  emitter.emit('bullet come',bullet);
 
@@ -205,7 +206,7 @@ var getRandomColor = function() {
 
 
 function checkBullet (results){
-	if (!results || !results['content']){
+	if (!results){
 		return null;
 	}
 
