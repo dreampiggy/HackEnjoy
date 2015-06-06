@@ -12,7 +12,7 @@ var opt = {
   url: '/weixin'
 };
 var wechat = new Wechat(opt);
-var uuid = '0000000001';//uuid 客户端提供
+var uuid = '1';//uuid 客户端提供
 
 function getWeixin(req,res){
 	var bindFunc = wechat.verifyRequest.bind(wechat);
