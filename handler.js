@@ -50,6 +50,7 @@ wechat.on('text', function(session) {
 
 wechat.on('image', function(session) {
   var picUrl = session.incomingMessage.PicUrl;
+  var nickname = session.incomingMessage.FromUserName;
   console.log(session.incomingMessage.PicUrl);
 
  request
@@ -58,12 +59,18 @@ wechat.on('image', function(session) {
       if(err){
         session.replyTextMessage('图片炮弹过大，请找个小点的');
         return;
-      }// emitter.emit('bullet come',bullet);
+      }
 
+      var imageBase64 = new Buffer(res.body, 'base64').toString();
 
-      var imageBase64 = new Buffer(res.body, 'base64').toString()
+      var bullet = checkBullet({
+      	type: "image",
+      	base64: imageBase64
+      })
+
+  	  emitter.emit('bullet come',bullet);
+
    });
-
 
   session.replyTextMessage('图片炮弹正装膛点燃！');
 });
@@ -203,12 +210,21 @@ function checkBullet (results){
 	}
 
 	var bullet = {
+	  type: "text",
 	  color : "#ffffff",
 	  fontsize : "1",
 	  content : "foo",
 	  duration : "1000",
 	  nickname : "foo"
 	};
+
+	if (results['image']){
+		bullet.type = "image";
+		bullet.content = results['base64'];
+		return bullet;
+	}
+
+
 
 	var color = getRandomColor();
 	var fontsize = 1 + Math.random() * 2;//1 - 3
