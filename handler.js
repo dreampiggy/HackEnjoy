@@ -62,7 +62,7 @@ wechat.on('image', function(session) {
       }
 
       var preBullet = {
-      	nickname: nickname
+      	nickname: nickname,
       	type: 'image',
       	url: picurl
       };
