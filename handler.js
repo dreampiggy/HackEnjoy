@@ -127,7 +127,7 @@ function getRandomID(callback){
 			callback('null');//没人中奖
 		}
 		else{
-			callback(results[0]['id']);
+			callback(results[0]['nickname']);
 		}
 	});
 }
