@@ -76,6 +76,7 @@ wechat.on('voice', function(session) {
 	wss.on('connection', function connection(ws) {
 		console.log('WebSocket start!');
 
+		ws.send('zei ni ma');
 		var heartTimer = setInterval(function(){
 			ws.send('');//发送心跳包防止WebSocket断开
 		},1000*60*3);
