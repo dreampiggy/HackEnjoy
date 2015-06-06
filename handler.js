@@ -30,10 +30,11 @@ wechat.on('text', function(session) {
 	var nickname = json.FromUserName;
 	var content = json.Content;
 
-	var bullet = {
+	var result = {
 		nickname: nickname,
 		content: content
 	}
+	var bullet = checkBullet(result);
 
 	emitter.emit('bullet come',bullet);
 	session.replyTextMessage('文字弹幕已上膛发射！');
