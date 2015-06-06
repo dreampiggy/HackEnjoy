@@ -4,7 +4,7 @@ function connect(){
 		host     : 'localhost',
 		user     : 'root',
 		password : '123456',
-		database : 'herald_bullet',
+		database : 'hackday_enjoy',
 	});
 
 	connection.connect(function(err) {

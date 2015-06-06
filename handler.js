@@ -27,13 +27,6 @@ function postWeixin(req,res){
 
 wechat.on('text', function(session) {
   var json = session.incomingMessage;
-     // ToUserName: 'gh_e5efdd82c3d4',
-     // FromUserName: 'oH_xis15rtTiWz88QL4AwWKrZEFg',
-     // CreateTime: '1433582707',
-     // MsgType: 'text',
-     // Content: '5',
-     // MsgId: '6157190842889486224',
-     // Encrypt: '加密垃圾'}
      var nickname = json.FromUserName;
      var content = json.Content;
 
@@ -45,8 +38,8 @@ wechat.on('text', function(session) {
      }
      var bullet = checkBullet(result);
 
+     saveBullet(bullet);
      emitter.emit('bullet come',bullet);
-
      session.replyTextMessage('文字弹幕已上膛发射！');
 });
 
@@ -86,13 +79,16 @@ wechat.on('voice', function(session) {
 
 		emitter.addListener('bullet come',sendBullet);//加入对字幕请求的监听器
 
-		// getTime(uuid,function(time){
-		// 	getBullet(time,function(results){
-		// 		if (results){
-		// 			ws.send(JSON.stringify(results));
-		// 		}
-		// 	});
-		// });
+		getTime(uuid,function(time){
+			getBullet(time,function(results){
+				if (results){
+					for (var i = 0; i < results.length; i++) {
+						results[i]['time'] = null;
+						ws.send(results[i]);
+					};
+				}
+			});
+		});
 
 		ws.on('message', function incoming(message) {
 			console.log(message);
@@ -101,6 +97,7 @@ wechat.on('voice', function(session) {
 				var result = checkBullet(message);
 				if (result){
 					ws.send(JSON.stringify(result));
+					saveBullet(result);
 				}
 			}
 			catch (e){
@@ -117,79 +114,39 @@ wechat.on('voice', function(session) {
 })();
 
 
-// function getLuck (req,res) {
-// 	if (!req.body){
-// 		res.status(403).end();
-// 		return;
-// 	}
-// 	var movieid = checkLuck(req.body['movieid']);
-
-// 	if (movieid){
-// 		getRandomID(function(result){
-// 			res.end(result);//发送抽奖结果
-// 		})
-// 	}
-// 	else{
-// 		res.status(403).end();
-// 		return;
-// 	}
-// }
-
-// function checkLuck (movieid) {
-// 	if (movieid == MOVIE_ID){//保留字，视频ID，暂时定义为000000001
-// 		return movieid;
-// 	}
-// 	else{
-// 		return null;
-// 	}
-// }
-
-// function getRandomID(callback){
-// 	connection.query('SELECT * FROM user ORDER BY RAND() LIMIT 1',//参与人数不超过全校人数，性能足够
-// 		function(err, results) {
-// 		if (err){
-// 			console.log(err);
-// 			callback('null');//没人中奖
-// 		}
-// 		else if (!results || results.length == 0){
-// 			console.log('fuck');
-// 			callback('null');//没人中奖
-// 		}
-// 		else{
-// 			callback(results[0]['id']);
-// 		}
-// 	});
-// }
-
-
-function acceptBullet(fileType, content){
-
-	var bullet = 'fuck';
-
-	// var bullet = checkBullet(req.body);
-
-	console.log(req.body);
-
-	if (bullet){
-		res.status(200).end();
-	}
-	else{
+function getLuck (req,res) {
+	if (!req.body){
 		res.status(403).end();
 		return;
 	}
+	getRandomID(function(result){
+		res.end(result);//发送抽奖结果
+	})
+}
 
-	saveBullet(bullet);
-	emitter.emit('bullet come',bullet);
+
+function getRandomID(callback){
+	connection.query('SELECT * FROM user ORDER BY RAND() LIMIT 1',//参与人数不超过全校人数，性能足够
+		function(err, results) {
+		if (err){
+			console.log(err);
+			callback('null');//没人中奖
+		}
+		else if (!results || results.length == 0){
+			console.log('fuck');
+			callback('null');//没人中奖
+		}
+		else{
+			callback(results[0]['id']);
+		}
+	});
 }
 
 
 var getRandomColor = function() {
-    return '#' + (function(color) { 
-        //这个写法比较有意思,Math.floor(Math.random()*16);返回的是一个小于或等于16的数.然后作为0123456789abcdef的下标,这样每次就会得到一个这个字符串当中的一个字符
-    return (color += '0123456789abcdef' [Math.floor(Math.random() * 16)]) 
-        //然后判断这个新字符串的长度是否到6,因为16进制的颜色是由6个字符组成的,如果到6了,就返回这6个字符拼成的字符串,如果没有就执行arguments.callee(color)也就是函数本身.
-        && (color.length == 6) ? color: arguments.callee(color); //将''字符串传给color
-    })('');
+	var colors = ["#F44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#00BCD4","#009688","#4CAF50","#8BC34A","#CDDC39","#FFEB3B","#FFC107","#FF9800","#FF5722","#795548","#9E9E9E","#607D8B","#000000"];
+	var randomNum = Math.floor(Math.random() * ( 20 + 1));
+	return colors[randomNum];
 }
 
 
@@ -214,8 +171,6 @@ function checkBullet (results){
 		bullet.url = results['url'];
 		return bullet;
 	}
-
-
 
 	var color = getRandomColor();
 	var fontsize = 1 + Math.random() * 2;//1 - 3
@@ -242,7 +197,7 @@ function saveBullet (bullet) {
 	var content = bullet.content;
 
 	connection.query('INSERT INTO bullet SET time = ?,nickname = ?,content = ?',
-		[time,movieid,content,studentNum],
+		[time,nickname,content],
 		function(err, results) {
 		if (err){
 			console.log(err);
@@ -252,21 +207,20 @@ function saveBullet (bullet) {
 		}
 	});
 
-	// connection.query('INSERT INTO user SET id = ?,count = 0 ON DUPLICATE KEY UPDATE count = count+1',
-	// 	[studentNum],
-	// 	function(err,results){
-	// 	if(err){
-	// 		console.log(err);
-	// 	}
-	// 	else{
-	// 		//ok
-	// 	}
-	// });
-
+	connection.query('INSERT INTO user SET id = ?,count = 0 ON DUPLICATE KEY UPDATE count = count+1',
+		[nickname],
+		function(err,results){
+		if(err){
+			console.log(err);
+		}
+		else{
+			//ok
+		}
+	});
 }
 
 function getBullet (time,callback){
-	connection.query('SELECT time,movieid,content,studentNum FROM bullet WHERE time > ? ORDER BY id DESC LIMIT 10',
+	connection.query('SELECT time,nickname,content FROM bullet WHERE time > ? ORDER BY id DESC LIMIT 5',
 		[time],//最多会取最近的10条
 		function(err,results){
 		if (err){
@@ -283,10 +237,10 @@ function getBullet (time,callback){
 	});
 }
 
-function saveTime (uuid){
+function saveTime (clientID){
 	var time = Math.round(new Date().getTime()/1000);
-	connection.query('INSERT INTO client SET uuid = ?,time = ? ON DUPLICATE KEY UPDATE time = ?',
-		[uuid,time,uuid,time],
+	connection.query('INSERT INTO client SET id = ?,time = ? ON DUPLICATE KEY UPDATE time = ?',
+		[clientID,time,clientID,time],
 		function(err,results){
 		if (err){
 			console.log(err);
@@ -297,10 +251,10 @@ function saveTime (uuid){
 	});
 }
 
-function getTime (uuid,callback){
+function getTime (clientID,callback){
 	var time = Math.round(new Date().getTime()/1000);
-	connection.query('SELECT time FROM client WHERE uuid = ?',
-		[uuid],
+	connection.query('SELECT time FROM client WHERE id = ?',
+		[clientID],
 		function(err,results){
 		if (err){
 			callback(time);
@@ -314,7 +268,6 @@ function getTime (uuid,callback){
 	});
 }
 
-// exports.getLuck = getLuck;
+exports.getLuck = getLuck;
 exports.getWeixin = getWeixin;
 exports.postWeixin = postWeixin;
-exports.acceptBullet = acceptBullet;
