@@ -203,7 +203,7 @@ function saveBullet (bullet) {
 		}
 	});
 
-	connection.query('INSERT INTO user SET id = ?,count = 0 ON DUPLICATE KEY UPDATE count = count+1',
+	connection.query('INSERT INTO user SET nickname = ?,count = 0 ON DUPLICATE KEY UPDATE count = count+1',
 		[nickname],
 		function(err,results){
 		if(err){

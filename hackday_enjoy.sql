@@ -11,7 +11,7 @@
  Target Server Version : 50542
  File Encoding         : utf-8
 
- Date: 06/07/2015 01:40:14 AM
+ Date: 06/07/2015 01:43:04 AM
 */
 
 SET NAMES utf8;
@@ -44,8 +44,9 @@ CREATE TABLE `client` (
 -- ----------------------------
 DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL,
   `count` int(11) DEFAULT NULL,
+  `nickname` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
