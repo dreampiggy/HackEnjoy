@@ -1,13 +1,10 @@
+var connection = require('./config');
 var request = require('superagent');
 var events = require("events");
-var WebSocket = require('ws');
-var connection = require('./config');
-
 var io = require('socket.io')(3000);
+var Wechat = require('nodejs-wechat');
 var emitter = new events.EventEmitter();
 
-
-var Wechat = require('nodejs-wechat');
 var opt = {
   token: 'uniquehackday',
   url: '/weixin'
@@ -16,12 +13,12 @@ var wechat = new Wechat(opt);
 
 
 function getWeixin(req,res){
-	var bindFunc = wechat.verifyRequest(req,res).bind(wechat);
+	var bindFunc = wechat.verifyRequest.bind(wechat);
 	bindFunc(req,res);
 }
 
 function postWeixin(req,res){
-	var bindFunc = wechat.handleRequest(req,res).bind(wechat);
+	var bindFunc = wechat.handleRequest.bind(wechat);
 	bindFunc(req,res);
 }
 
