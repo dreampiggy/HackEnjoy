@@ -49,7 +49,7 @@ wechat.on('text', function(session) {
 });
 
 wechat.on('image', function(session) {
-  var picUrl = session.incomingMessage.PicUrl;
+  var picurl = session.incomingMessage.PicUrl;
   var nickname = session.incomingMessage.FromUserName;
   console.log(session.incomingMessage.PicUrl);
 
@@ -61,19 +61,18 @@ wechat.on('image', function(session) {
         return;
       }
 
-      var imageBase64 = new Buffer(res.body).toString();
-
       var preBullet = {
+      	nickname: nickname
       	type: 'image',
-      	base64: imageBase64
+      	url: picurl
       };
+
       var bullet = checkBullet(preBullet);
 
   	  emitter.emit('bullet come',bullet);
 
    });
-
-  session.replyTextMessage('图片炮弹正装膛点燃！');
+   session.replyTextMessage('图片炮弹正装膛点燃！');
 });
 wechat.on('voice', function(session) {
   console.log(session);
@@ -220,8 +219,10 @@ function checkBullet (results){
 	};
 
 	if (results['type'] == 'image'){
+		bullet.nickname = results['nickname']
 		bullet.type = "image";
-		bullet.content = results['base64'];
+		bullet.content = '图片';
+		bullet.url = results['url'];
 		return bullet;
 	}
 
