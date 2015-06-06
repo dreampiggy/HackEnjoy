@@ -338,7 +338,7 @@ function getTime (clientID,callback){
 
 
 function random (min,max) {
-	return min + Math.floor(Math.random() * (1+max-min));
+	return min + Math.floor(Math.random() * (max + 1));
 }
 
 
