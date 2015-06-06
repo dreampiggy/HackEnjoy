@@ -197,7 +197,7 @@ function checkBullet (results){
 	}
 
 	var bullet = {
-	  type: "text",
+	  type: "linear",
 	  color : "#ffffff",
 	  fontsize : "1",
 	  content : "foo",
@@ -207,17 +207,21 @@ function checkBullet (results){
 
 	if (results['type'] == 'image'){
 		bullet.nickname = results['nickname'];
-		bullet.type = 'image';
-		bullet.content = '';
-		bullet.url = results['url'];
+		bullet.type = 'linear';
+		bullet.content = '[图片]';
+		bullet.nickname = results['url'];
 		return bullet;
 	}
 
+	console.log(results['content']);
+
+	var innerType = ['linear','bomb'];
+	var type = innerType[Math.floor(Math.random() * ( 1 + 1))];
 	var color = getRandomColor();
-	var fontsize = 1 + Math.random() * 2;//1 - 3
 	var nickname = results['nickname'];//保留
 	var content = results['content'];
 	var duration = 3000 + Math.floor(Math.random() * ( 2000 + 1));//3000-5000
+	var fontsize = 10000.0 / duration;
 
 	bullet.color = color;
 	bullet.fontsize = fontsize;

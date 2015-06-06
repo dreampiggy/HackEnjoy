@@ -4,8 +4,8 @@
 <database>
     <databaseInfo>
         <version>134481920</version>
-        <UUID>CBEEF7F3-C6CD-490D-9F8B-BA513E9FC7F9</UUID>
-        <nextObjectID>108</nextObjectID>
+        <UUID>EC5FCAF3-BB85-40FE-8B16-C9FE49C5AAB0</UUID>
+        <nextObjectID>110</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -60,37 +60,19 @@
             </plist>
         </metadata>
     </databaseInfo>
-    <object type="LMCOOKIEJAR" id="z102">
-        <attribute name="uuid" type="string">4E512110-A6B8-42B1-AFEA-179E7732B182</attribute>
-        <attribute name="order" type="int64">1</attribute>
-        <attribute name="name" type="string">Default Cookie Jar</attribute>
-    </object>
-    <object type="LMENVIRONMENT" id="z103">
-        <attribute name="uuid" type="string">FF37FD25-7954-48B9-A838-EB67E9941164</attribute>
-        <attribute name="order" type="int64">0</attribute>
-        <attribute name="name" type="string">Default Environment</attribute>
-        <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z106"></relationship>
-        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE"></relationship>
-    </object>
-    <object type="LMREQUEST" id="z104">
-        <attribute name="uuid" type="string">334328C3-C58E-4E5D-AE92-4FA030982353</attribute>
-        <attribute name="url" type="string">http://123.57.143.92/</attribute>
-        <attribute name="storecookies" type="bool">1</attribute>
-        <attribute name="sendcookies" type="bool">1</attribute>
-        <attribute name="redirectmethod" type="bool">0</attribute>
-        <attribute name="redirectauthorization" type="bool">0</attribute>
-        <attribute name="method" type="string">POST</attribute>
-        <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="body" type="string">[{"data":{"keyValues":[["time","1432918740",true],["content","我要上头条#11",true],["movieid","000000001",true],["studentNum","213133443",true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
-        <attribute name="order" type="int64">0</attribute>
-        <attribute name="name" type="string">发弹幕</attribute>
-        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z105"></relationship>
-    </object>
-    <object type="LMKEYVALUE" id="z105">
+    <object type="LMKEYVALUE" id="z102">
         <attribute name="value" type="string"></attribute>
         <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string"></attribute>
+        <attribute name="enabled" type="bool">1</attribute>
+        <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z108"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z103">
+        <attribute name="value" type="string"></attribute>
+        <attribute name="order" type="int64">3</attribute>
         <attribute name="name" type="string"></attribute>
         <attribute name="enabled" type="bool">1</attribute>
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
@@ -98,30 +80,66 @@
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z104"></relationship>
     </object>
-    <object type="LMENVIRONMENTDOMAIN" id="z106">
-        <attribute name="uuid" type="string">1ACEB6C8-DE3B-4798-9730-EEC6B941885C</attribute>
-        <attribute name="order" type="int64">0</attribute>
-        <attribute name="name" type="string">Default Domain</attribute>
-        <relationship name="environments" type="0/0" destination="LMENVIRONMENT" idrefs="z103"></relationship>
-        <relationship name="variables" type="0/0" destination="LMENVIRONMENTVARIABLE"></relationship>
-    </object>
-    <object type="LMREQUEST" id="z107">
-        <attribute name="body" type="string">[{"data":{"keyValues":[["movieid","000000001",true]]},"identifier":"com.luckymarmot.BodyFormKeyValueDynamicValue"}]</attribute>
-        <attribute name="uuid" type="string">AE40D980-529C-436C-9D3F-E857A16690CB</attribute>
-        <attribute name="url" type="string">http://123.57.143.92/luck</attribute>
+    <object type="LMREQUEST" id="z104">
+        <attribute name="uuid" type="string">14B9FBC0-C578-4BB4-A949-B821FF7F88BB</attribute>
+        <attribute name="url" type="string">https://api.weixin.qq.com/cgi-bin/user/info?access_token=L9ITbVywjzuL7wQumYy_Jbj1NPobSvDc_1KURQnsv_D_oqWxVjfVVQCpdyBBfGldbudPoaeSchqJBeWJ7ZjOBI-uyGd7sZY8v7kOUzFNLoc\u2600openid=oH_xiswyASppwp2hVU1VFPDq4qLA\u2600lang=zh_CN</attribute>
         <attribute name="storecookies" type="bool">1</attribute>
         <attribute name="sendcookies" type="bool">1</attribute>
         <attribute name="redirectmethod" type="bool">0</attribute>
         <attribute name="redirectauthorization" type="bool">0</attribute>
-        <attribute name="method" type="string">POST</attribute>
+        <attribute name="method" type="string">GET</attribute>
         <attribute name="followredirects" type="bool">0</attribute>
-        <attribute name="order" type="int64">1</attribute>
-        <attribute name="name" type="string">抽奖</attribute>
+        <attribute name="order" type="int64">2</attribute>
+        <attribute name="name" type="string">My API (3)</attribute>
         <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
         <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
-        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z108"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z103"></relationship>
     </object>
-    <object type="LMKEYVALUE" id="z108">
+    <object type="LMREQUEST" id="z105">
+        <attribute name="uuid" type="string">0B4A562A-43F0-4D1D-8777-55476A6BEE29</attribute>
+        <attribute name="url" type="string">https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential\u2600appid=wx2fef235fd2d7732f\u2600secret=8dd09f7bc0751eee5246a5afada99c98</attribute>
+        <attribute name="storecookies" type="bool">1</attribute>
+        <attribute name="sendcookies" type="bool">1</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">GET</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string">My API (2)</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z109"></relationship>
+    </object>
+    <object type="LMENVIRONMENTDOMAIN" id="z106">
+        <attribute name="uuid" type="string">7D0E5F65-5CC8-4590-BD7D-B97F1F8782CF</attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string">Default Domain</attribute>
+        <relationship name="environments" type="0/0" destination="LMENVIRONMENT" idrefs="z107"></relationship>
+        <relationship name="variables" type="0/0" destination="LMENVIRONMENTVARIABLE"></relationship>
+    </object>
+    <object type="LMENVIRONMENT" id="z107">
+        <attribute name="uuid" type="string">F594C247-0FBF-4C36-8E66-A29D8812470C</attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string">Default Environment</attribute>
+        <relationship name="domain" type="0/1" destination="LMENVIRONMENTDOMAIN" idrefs="z106"></relationship>
+        <relationship name="variablesvalues" type="0/0" destination="LMENVIRONMENTVARIABLEVALUE"></relationship>
+    </object>
+    <object type="LMREQUEST" id="z108">
+        <attribute name="uuid" type="string">383810E5-5300-451D-8E27-F25E246DAB3C</attribute>
+        <attribute name="url" type="string">http://123.57.143.92:80/luck</attribute>
+        <attribute name="storecookies" type="bool">1</attribute>
+        <attribute name="sendcookies" type="bool">1</attribute>
+        <attribute name="redirectmethod" type="bool">0</attribute>
+        <attribute name="redirectauthorization" type="bool">0</attribute>
+        <attribute name="method" type="string">GET</attribute>
+        <attribute name="followredirects" type="bool">0</attribute>
+        <attribute name="order" type="int64">0</attribute>
+        <attribute name="name" type="string">My API</attribute>
+        <relationship name="parent" type="0/1" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="children" type="0/0" destination="LMREQUESTTREEITEM"></relationship>
+        <relationship name="headers" type="0/0" destination="LMKEYVALUE" idrefs="z102"></relationship>
+    </object>
+    <object type="LMKEYVALUE" id="z109">
         <attribute name="value" type="string"></attribute>
         <attribute name="order" type="int64">0</attribute>
         <attribute name="name" type="string"></attribute>
@@ -129,6 +147,11 @@
         <relationship name="groupforbodyparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforheaders" type="0/1" destination="LMREQUESTGROUP"></relationship>
         <relationship name="groupforurlparameters" type="0/1" destination="LMREQUESTGROUP"></relationship>
-        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z107"></relationship>
+        <relationship name="request" type="0/1" destination="LMREQUEST" idrefs="z105"></relationship>
+    </object>
+    <object type="LMCOOKIEJAR" id="z110">
+        <attribute name="uuid" type="string">ECB7CB9C-831C-4959-92FC-3CFF99D18696</attribute>
+        <attribute name="order" type="int64">1</attribute>
+        <attribute name="name" type="string">Default Cookie Jar</attribute>
     </object>
 </database>
