@@ -1,5 +1,5 @@
 var WebSocket = require('ws')
-  , ws = new WebSocket('ws://123.57.143.92:3000');
+  , ws = new WebSocket('ws://localhost:3000');
 var request = require('superagent');
 
 function sendWebSocket(){
@@ -8,13 +8,13 @@ function sendWebSocket(){
 		var random = Math.floor(Math.random() * ( 100 + 1));
 		var randomCard = 100 + Math.floor(Math.random() * (999 + 1));
 		var sendJSON = {
-			content : '前方高能!!!!',
+			content : '1😔',
 			nickname : '213133' + randomCard
 		}
 		function send(){
 			ws.send(JSON.stringify(sendJSON));
 		}
-	    // setInterval(send,50);
+	    setInterval(send,1000);
 	});
 	ws.on('message', function(message) {
 		var random = Math.floor(Math.random() * ( 100 + 1));
