@@ -44,7 +44,7 @@ wechat.on('image', function(session) {
       if(err){
         session.replyTextMessage('图片炮弹过大，请找个小点的');
       }
-      console.log(res.files);
+      console.log(res.text);
    });
 
 
