@@ -236,8 +236,6 @@ function saveBullet (bullet) {
 	var nickname = bullet.nickname;
 	var content = bullet.content;
 
-	console.log(nickname);
-	console.log(content);
 	connection.query('INSERT INTO bullet SET time = ?,nickname = ?,content = ?',
 		[time,nickname,content],
 		function(err, results) {
