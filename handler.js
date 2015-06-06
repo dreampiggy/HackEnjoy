@@ -49,38 +49,25 @@ wechat.on('text', function(session) {
 });
 
 wechat.on('image', function(session) {
-  var picurl = session.incomingMessage.PicUrl;
-  var nickname = session.incomingMessage.FromUserName;
-  console.log(session.incomingMessage.PicUrl);
+	var picurl = session.incomingMessage.PicUrl;
+	var nickname = session.incomingMessage.FromUserName;
+	console.log(picurl);
+	var preBullet = {
+		nickname: nickname,
+		type: 'image',
+		url: picurl
+	};
 
- request
-   .get(picUrl)
-   .end(function(err, res){
-      if(err){
-        session.replyTextMessage('图片炮弹过大，请找个小点的');
-        return;
-      }
+	var bullet = checkBullet(preBullet);
 
-      var preBullet = {
-      	nickname: nickname,
-      	type: 'image',
-      	url: picurl
-      };
-
-      var bullet = checkBullet(preBullet);
-
-  	  emitter.emit('bullet come',bullet);
-
-   });
-   session.replyTextMessage('图片炮弹正装膛点燃！');
+	emitter.emit('bullet come',bullet);
+	session.replyTextMessage('图片炮弹正装膛点燃！');
 });
+
 wechat.on('voice', function(session) {
   console.log(session);
   session.replyTextMessage('语音炸弹将高空落下！');
 });
-
-
-
 
 
 (function websocket(){
