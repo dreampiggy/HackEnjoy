@@ -229,7 +229,7 @@ function checkBullet (results){
 	var duration = random(3000,5000);//3000-5000
 	var fontsize = 10000.0 / duration;
 
-	bullet.type = type;
+	bullet.type = type();
 	bullet.color = color;
 	bullet.fontsize = fontsize;
 	bullet.content = content;
