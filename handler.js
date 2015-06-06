@@ -3,20 +3,15 @@ var events = require("events");
 var WebSocket = require('ws');
 var connection = require('./config');
 
-var WebSocketServer = WebSocket.Server
-var wss = new WebSocketServer({ port: 3000 });
+var io = require('socket.io')(3000);
 var emitter = new events.EventEmitter();
 
-var MOVIE_ID = '000000001';
-var UUID = '0000000000000001';
-
 (function websocket(){
-	wss.on('connection', function connection(ws) {
+	io.on('connection', function connection(ws) {
 		console.log('WebSocket start!');
-		var uuid = UUID;
 
 		var sendBullet = function(bullet){
-			var sendJSON = [bullet];
+			var sendJSON = bullet;
 			ws.send(JSON.stringify(sendJSON));//加入判断
 		};
 		var heartTimer = setInterval(function(){
@@ -25,70 +20,80 @@ var UUID = '0000000000000001';
 
 		emitter.addListener('bullet come',sendBullet);//加入对字幕请求的监听器
 
-		getTime(uuid,function(time){
-			getBullet(time,function(results){
-				if (results){
-					ws.send(JSON.stringify(results));
-				}
-			});
-		});
+		// getTime(uuid,function(time){
+		// 	getBullet(time,function(results){
+		// 		if (results){
+		// 			ws.send(JSON.stringify(results));
+		// 		}
+		// 	});
+		// });
 
 		ws.on('message', function incoming(message) {
-			//保留，比如可以发送过来你的uuid来识别用户
+			console.log(message);
+			try{
+				message = JSON.parse(message);
+				var result = checkBullet(message);
+				if (result){
+					ws.send(JSON.stringify(result));
+				}
+			}
+			catch (e){
+				console.log('fuck');
+			}
 		});
 
 		ws.on('close', function close(){
 			emitter.removeListener('bullet come',sendBullet);//取消监听器
 			clearInterval(heartTimer);//取消心跳包
-			saveTime(uuid);
+			// saveTime(uuid);
 		})
 	});
 })();
 
 
-function getLuck (req,res) {
-	if (!req.body){
-		res.status(403).end();
-		return;
-	}
-	var movieid = checkLuck(req.body['movieid']);
+// function getLuck (req,res) {
+// 	if (!req.body){
+// 		res.status(403).end();
+// 		return;
+// 	}
+// 	var movieid = checkLuck(req.body['movieid']);
 
-	if (movieid){
-		getRandomID(function(result){
-			res.end(result);//发送抽奖结果
-		})
-	}
-	else{
-		res.status(403).end();
-		return;
-	}
-}
+// 	if (movieid){
+// 		getRandomID(function(result){
+// 			res.end(result);//发送抽奖结果
+// 		})
+// 	}
+// 	else{
+// 		res.status(403).end();
+// 		return;
+// 	}
+// }
 
-function checkLuck (movieid) {
-	if (movieid == MOVIE_ID){//保留字，视频ID，暂时定义为000000001
-		return movieid;
-	}
-	else{
-		return null;
-	}
-}
+// function checkLuck (movieid) {
+// 	if (movieid == MOVIE_ID){//保留字，视频ID，暂时定义为000000001
+// 		return movieid;
+// 	}
+// 	else{
+// 		return null;
+// 	}
+// }
 
-function getRandomID(callback){
-	connection.query('SELECT * FROM user ORDER BY RAND() LIMIT 1',//参与人数不超过全校人数，性能足够
-		function(err, results) {
-		if (err){
-			console.log(err);
-			callback('null');//没人中奖
-		}
-		else if (!results || results.length == 0){
-			console.log('fuck');
-			callback('null');//没人中奖
-		}
-		else{
-			callback(results[0]['id']);
-		}
-	});
-}
+// function getRandomID(callback){
+// 	connection.query('SELECT * FROM user ORDER BY RAND() LIMIT 1',//参与人数不超过全校人数，性能足够
+// 		function(err, results) {
+// 		if (err){
+// 			console.log(err);
+// 			callback('null');//没人中奖
+// 		}
+// 		else if (!results || results.length == 0){
+// 			console.log('fuck');
+// 			callback('null');//没人中奖
+// 		}
+// 		else{
+// 			callback(results[0]['id']);
+// 		}
+// 	});
+// }
 
 
 function acceptBullet(req,res){
@@ -113,28 +118,41 @@ function acceptBullet(req,res){
 	emitter.emit('bullet come',bullet);
 }
 
+
+var getRandomColor = function() {
+    return '#' + (function(color) { 
+        //这个写法比较有意思,Math.floor(Math.random()*16);返回的是一个小于或等于16的数.然后作为0123456789abcdef的下标,这样每次就会得到一个这个字符串当中的一个字符
+    return (color += '0123456789abcdef' [Math.floor(Math.random() * 16)]) 
+        //然后判断这个新字符串的长度是否到6,因为16进制的颜色是由6个字符组成的,如果到6了,就返回这6个字符拼成的字符串,如果没有就执行arguments.callee(color)也就是函数本身.
+        && (color.length == 6) ? color: arguments.callee(color); //将''字符串传给color
+    })('');
+}
+
+
 function checkBullet (results){
+	if (!results || !results['content']){
+		return null;
+	}
+
 	var bullet = {
-		time: '',
-		movieid: MOVIE_ID,//保留字，视频ID，暂时定义为000000001
-		content: '',
-		studentNum: ''
+	  color : "#ffffff",
+	  fontsize : "15",
+	  content : "foo",
+	  duration : "1000",
+	  nickname : "foo"
 	};
 
-	var timeReg = /^\d+$/;
-	var studentNumReg = /^\d{9}$/;
+	var color = getRandomColor();
+	var fontsize = 10 + Math.floor(Math.random() * ( 10 + 1));//10 - 20
+	var nickname = results['nickname'];//保留
+	var content = results['content'];
+	var duration = 500 + Math.floor(Math.random() * ( 1500 + 1));//500-2000
 
-	if (!results.time || !results.movieid || !results.content ||!results.studentNum){
-		return null;
-	}
-	if (!timeReg.test(results.time) || !studentNumReg.test(results.studentNum)){
-		return null;
-	}
-
-	bullet.time = results.time;
-	// bullet.movieid = results.movieid;//暂时不使用
-	bullet.content = results.content;
-	bullet.studentNum = results.studentNum;
+	bullet.color = color;
+	bullet.fontsize = fontsize;
+	bullet.content = content;
+	bullet.duration = duration;
+	bullet.nickname = nickname
 
 	return bullet;
 }
@@ -145,11 +163,10 @@ function saveBullet (bullet) {
 	}
 
 	var time = bullet.time;
-	var movieid = bullet.movieid;
+	var nickname = bullet.nickname;
 	var content = bullet.content;
-	var studentNum = bullet.studentNum;
 
-	connection.query('INSERT INTO bullet SET time = ?,movieid = ?,content = ?,studentNum = ?',
+	connection.query('INSERT INTO bullet SET time = ?,nickname = ?,content = ?',
 		[time,movieid,content,studentNum],
 		function(err, results) {
 		if (err){
@@ -159,16 +176,18 @@ function saveBullet (bullet) {
 			//ok
 		}
 	});
-	connection.query('INSERT INTO user SET id = ?,count = 0 ON DUPLICATE KEY UPDATE count = count+1',
-		[studentNum],
-		function(err,results){
-		if(err){
-			console.log(err);
-		}
-		else{
-			//ok
-		}
-	});
+
+	// connection.query('INSERT INTO user SET id = ?,count = 0 ON DUPLICATE KEY UPDATE count = count+1',
+	// 	[studentNum],
+	// 	function(err,results){
+	// 	if(err){
+	// 		console.log(err);
+	// 	}
+	// 	else{
+	// 		//ok
+	// 	}
+	// });
+
 }
 
 function getBullet (time,callback){
@@ -220,5 +239,5 @@ function getTime (uuid,callback){
 	});
 }
 
-exports.getLuck = getLuck;
+// exports.getLuck = getLuck;
 exports.acceptBullet = acceptBullet;

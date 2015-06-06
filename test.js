@@ -1,14 +1,30 @@
-var WebSocket = require('ws')
-  , ws = new WebSocket('ws://123.57.143.92:3000');
+var io = require('socket.io/node_modules/socket.io-client/index.js')('http://localhost:3000/');
 var request = require('superagent');
 
 function sendWebSocket(){
-	ws.on('open', function() {
+	io.on('connect', function() {
 		console.log('open!');
-	    ws.send('ok');
+		var random = Math.floor(Math.random() * ( 100 + 1));
+		var randomCard = 100 + Math.floor(Math.random() * (999 + 1));
+		var sendJSON = {
+			content : '吃我弹幕炸弹' + random + '号',
+			nickname : '213133' + randomCard
+		}
+	    io.send(JSON.stringify(sendJSON));
 	});
-	ws.on('message', function(message) {
+	io.on('message', function(message) {
+		var random = Math.floor(Math.random() * ( 100 + 1));
+		var randomCard = 100 + Math.floor(Math.random() * (999 + 1));
+		var sendJSON = {
+			content : '吃我弹幕炸弹' + random + '号',
+			nickname : '213133' + randomCard
+		}
 	    console.log('received: %s', message);
+
+	    io.send(JSON.stringify(sendJSON));
+	});
+	io.on('close', function() {
+		console.log('end');
 	});
 }
 
@@ -17,13 +33,11 @@ function sendHTTP(){
 	var random = Math.floor(Math.random() * ( 100 + 1));
 	var randomCard = 100 + Math.floor(Math.random() * (999 + 1));
 	var sendJSON = {
-		time : time,
 		content : '吃我弹幕炸弹' + random + '号',
-		movieid : '000000001',
-		studentNum : '213133' + randomCard
+		nickname : '213133' + randomCard
 	}
 	request
-		.post('http://123.57.143.92/')
+		.post('http://localhost:8080/')
 		.send(sendJSON)
 		.end(function(err, res){
 		if (err){
@@ -35,5 +49,5 @@ function sendHTTP(){
 	});
 }
 
-setInterval(sendHTTP,100);//每0.1秒模拟发送1个字幕
+// setInterval(sendHTTP,100);//每0.1秒模拟发送1个字幕
 sendWebSocket();//启动WebSocket
