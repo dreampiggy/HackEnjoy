@@ -33,7 +33,17 @@ wechat.on('text', function(session) {
      // Content: '5',
      // MsgId: '6157190842889486224',
      // Encrypt: '加密垃圾'}
-     console.log(session);
+     var nickname = json.FromUserName;
+     var content = json.Content;
+
+     var result = {
+     	nickname: nickname,
+     	content: content
+     }
+     var bullet = checkBullet(result);
+
+     emitter.emit('bullet come',bullet);
+
      session.replyTextMessage('文字弹幕已上膛发射！');
 });
 
@@ -46,11 +56,12 @@ wechat.on('image', function(session) {
    .end(function(err, res){
       if(err){
         session.replyTextMessage('图片炮弹过大，请找个小点的');
-      }
+        return;
+      }// emitter.emit('bullet come',bullet);
+
 
       var imageBase64 = new Buffer(res.body, 'base64').toString()
       console.log(imageBase64);
-
 
    });
 

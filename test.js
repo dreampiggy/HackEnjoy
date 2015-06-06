@@ -1,4 +1,4 @@
-var io = require('socket.io/node_modules/socket.io-client/index.js')('http://localhost:3000/');
+var io = require('socket.io/node_modules/socket.io-client/index.js')('http://123.57.143.92:3000/');
 var request = require('superagent');
 
 function sendWebSocket(){
