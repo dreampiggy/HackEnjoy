@@ -185,6 +185,7 @@ function saveBullet (bullet) {
 	if (!bullet){
 		return;
 	}
+	console.log(bullet);
 
 	var time = Math.round(new Date().getTime()/1000);
 	var nickname = bullet.nickname;
