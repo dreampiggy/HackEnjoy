@@ -1,5 +1,5 @@
 var WebSocket = require('ws')
-  , ws = new WebSocket('ws://localhost:3000');
+  , ws = new WebSocket('ws://123.57.143.92:3000');
 var request = require('superagent');
 
 function sendWebSocket(){
