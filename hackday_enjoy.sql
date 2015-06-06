@@ -11,7 +11,7 @@
  Target Server Version : 50542
  File Encoding         : utf-8
 
- Date: 06/07/2015 01:43:04 AM
+ Date: 06/07/2015 01:56:25 AM
 */
 
 SET NAMES utf8;
@@ -27,7 +27,7 @@ CREATE TABLE `bullet` (
   `nickname` varchar(255) DEFAULT NULL,
   `content` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `client`
