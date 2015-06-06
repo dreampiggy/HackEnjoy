@@ -13,6 +13,34 @@ var opt = {
 };
 var wechat = new Wechat(opt);
 var uuid = '1';//uuid 客户端提供
+var appid = 'wx2fef235fd2d7732f';//微信appid
+var appsecret = '8dd09f7bc0751eee5246a5afada99c98';//微信appsecret
+
+var appToken = null;
+
+function refreshToken(){
+	if (appToken == null){
+		request
+		.get('https://api.weixin.qq.com/cgi-bin/token')
+		.query({
+			grant_type: 'client_credential',
+			appid: appid,
+			secret: appsecret
+		})
+		.end(function(err, res){
+			if (err){
+				console.log('token error');
+				return;
+			}
+			appToken = res.body['access_token'];
+			console.log('Token:' + appToken);
+		});
+	}
+}
+
+refreshToken();
+setInterval(refreshToken,1000*60*60*2);
+
 
 function getWeixin(req,res){
 	var bindFunc = wechat.verifyRequest.bind(wechat);
@@ -27,17 +55,32 @@ function postWeixin(req,res){
 
 wechat.on('text', function(session) {
 	var json = session.incomingMessage;
-	var nickname = json.FromUserName;
-	var content = json.Content;
+	var openid = json.FromUserName;
 
-	var result = {
-		nickname: nickname,
-		content: content
-	}
-	var bullet = checkBullet(result);
+	request
+	.get('https://api.weixin.qq.com/cgi-bin/user/info')
+	.query({
+		access_token: appToken,
+		openid: openid,
+		lang: 'zh_CN'
+	})
+	.end(function(err,res) {
+		if (err){
+			console.log('weixin nickname error')
+			return;
+		}
+		var nickname = res.body['nickname'];
+		var content = json.Content;
 
-	emitter.emit('bullet come',bullet);
-	session.replyTextMessage('文字弹幕已上膛发射！');
+		var result = {
+			nickname: nickname,
+			content: content
+		}
+		var bullet = checkBullet(result);
+
+		emitter.emit('bullet come',bullet);
+		// session.replyTextMessage('文字弹幕已上膛发射！');
+	})
 });
 
 wechat.on('image', function(session) {
@@ -78,7 +121,7 @@ wechat.on('voice', function(session) {
 			  nickname : ""
 			};
 			ws.send(JSON.stringify(empty));//发送心跳包防止WebSocket断开
-		},1000*60*3);
+		},1000*60*5);
 
 		emitter.addListener('bullet come',sendBullet);//加入对字幕请求的监听器
 
