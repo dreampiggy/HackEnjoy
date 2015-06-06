@@ -61,7 +61,7 @@ wechat.on('image', function(session) {
         return;
       }
 
-      var imageBase64 = new Buffer(res.body, 'base64').toString('utf8');
+      var imageBase64 = new Buffer(res.body).toString();
 
       var preBullet = {
       	type: 'image',
