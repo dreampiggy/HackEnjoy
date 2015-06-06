@@ -6,6 +6,66 @@ var connection = require('./config');
 var io = require('socket.io')(3000);
 var emitter = new events.EventEmitter();
 
+
+var Wechat = require('nodejs-wechat');
+var opt = {
+  token: 'uniquehackday',
+  url: '/weixin'
+};
+var wechat = new Wechat(opt);
+
+
+function getWeixin(req,res){
+	wechat.verifyRequest(req,res).bind(wechat);
+}
+
+function postWeixin(req,res){
+	wechat.handleRequest(req,res).bind(wechat);
+}
+
+
+wechat.on('text', function(session) {
+  var json = session.incomingMessage;
+     // ToUserName: 'gh_e5efdd82c3d4',
+     // FromUserName: 'oH_xis15rtTiWz88QL4AwWKrZEFg',
+     // CreateTime: '1433582707',
+     // MsgType: 'text',
+     // Content: '5',
+     // MsgId: '6157190842889486224',
+     // Encrypt: '加密垃圾'}
+     console.log(session);
+     session.replyTextMessage('文字弹幕已上膛发射！');
+});
+
+wechat.on('image', function(session) {
+  var picUrl = session.incomingMessage.PicUrl;
+  console.log(session.incomingMessage.PicUrl);
+
+ request
+   .get(picUrl)
+   .end(function(err, res){
+      if(err){
+        session.replyTextMessage('图片炮弹过大，请找个小点的');
+      }
+
+      var imageBase64 = new Buffer(res.body, 'base64').toString()
+      console.log(imageBase64);
+
+
+   });
+
+
+  session.replyTextMessage('图片炮弹正装膛点燃！');
+});
+wechat.on('voice', function(session) {
+  console.log(session);
+  session.replyTextMessage('语音炸弹将高空落下！');
+});
+
+
+
+
+
 (function websocket(){
 	io.on('connection', function connection(ws) {
 		console.log('WebSocket start!');
@@ -99,7 +159,7 @@ var emitter = new events.EventEmitter();
 function acceptBullet(fileType, content){
 
 	var bullet = 'fuck';
-	
+
 	// var bullet = checkBullet(req.body);
 
 	console.log(req.body);
@@ -134,17 +194,17 @@ function checkBullet (results){
 
 	var bullet = {
 	  color : "#ffffff",
-	  fontsize : "15",
+	  fontsize : "1",
 	  content : "foo",
 	  duration : "1000",
 	  nickname : "foo"
 	};
 
 	var color = getRandomColor();
-	var fontsize = 10 + Math.floor(Math.random() * ( 10 + 1));//10 - 20
+	var fontsize = 1 + Math.random() * 2;//1 - 3
 	var nickname = results['nickname'];//保留
 	var content = results['content'];
-	var duration = 500 + Math.floor(Math.random() * ( 1500 + 1));//500-2000
+	var duration = 3000 + Math.floor(Math.random() * ( 2000 + 1));//3000-5000
 
 	bullet.color = color;
 	bullet.fontsize = fontsize;
@@ -238,4 +298,6 @@ function getTime (uuid,callback){
 }
 
 // exports.getLuck = getLuck;
+exports.getWeixin = getWeixin;
+exports.postWeixin = postWeixin;
 exports.acceptBullet = acceptBullet;
