@@ -219,7 +219,7 @@ function checkBullet (results){
 	  nickname : "foo"
 	};
 
-	if (results['image']){
+	if (results['type'] == 'image'){
 		bullet.type = "image";
 		bullet.content = results['base64'];
 		return bullet;
