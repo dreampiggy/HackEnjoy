@@ -208,7 +208,7 @@ function checkBullet (results){
 	if (results['type'] == 'image'){
 		bullet.nickname = results['nickname'];
 		bullet.type = 'image';
-		bullet.content = '图片';
+		bullet.content = '';
 		bullet.url = results['url'];
 		return bullet;
 	}
