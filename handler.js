@@ -183,12 +183,12 @@ function saveBullet (bullet) {
 	if (!bullet){
 		return;
 	}
-	console.log(bullet);
-
 	var time = Math.round(new Date().getTime()/1000);
 	var nickname = bullet.nickname;
 	var content = bullet.content;
 
+	console.log(nickname);
+	console.log(content);
 	connection.query('INSERT INTO bullet SET time = ?,nickname = ?,content = ?',
 		[time,nickname,content],
 		function(err, results) {
