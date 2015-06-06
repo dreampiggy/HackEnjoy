@@ -186,8 +186,8 @@ function getRandomID(callback){
 
 
 var getRandomColor = function() {
-	var colors = ["#44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#00BCD4","#009688","#4CAF50","#8BC34A","#CDDC39","#FFEB3B","#FFC107","#FF9800","#FF5722","#795548","#9E9E9E","#607D8B","#000000"];
-	var randomNum = random(0,19);
+	var colors = ['#FFE300','#FFFFFF','#48FFD1','red','#FF530D'];
+	var randomNum = random(0,5);
 	return colors[randomNum];
 }
 
@@ -216,9 +216,6 @@ function checkBullet (results){
 
 	console.log(results['content']);
 
-
-
-
 	var type = function(){
 		if (Math.random() < 0.75){
 			return 'linear';
@@ -230,14 +227,25 @@ function checkBullet (results){
 	var color = getRandomColor();
 	var nickname = results['nickname'];//保留
 	var content = results['content'];
-	var duration = random(3000,5000);//3000-5000
-	var fontsize = 10000.0 / duration;
+	var duration = function(){
+		var size = content.length;
+		if (size > 20){
+			return random(5000,6000);
+		}
+		else if(size > 10){
+			return random(4000,5000);
+		}
+		else{
+			return random(3000,4000);
+		}
+	}
+	var fontsize = (duration / 1000) - 2;
 
 	bullet.type = type();
 	bullet.color = color;
 	bullet.fontsize = fontsize;
 	bullet.content = content;
-	bullet.duration = duration;
+	bullet.duration = duration();
 	bullet.nickname = nickname
 
 	return bullet;
@@ -330,7 +338,7 @@ function getTime (clientID,callback){
 
 
 function random (min,max) {
-	return Math.ceil(Math.random()*(max-min)+min);
+	return min + Math.floor(Math.random() * (1+max-min));
 }
 
 

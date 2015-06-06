@@ -8,7 +8,7 @@ function sendWebSocket(){
 		var random = Math.floor(Math.random() * ( 100 + 1));
 		var randomCard = 100 + Math.floor(Math.random() * (999 + 1));
 		var sendJSON = {
-			content : '吃我弹幕炸弹' + random + '号',
+			content : '前方高能!!!!';
 			nickname : '213133' + randomCard
 		}
 		function send(){
