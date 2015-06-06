@@ -186,7 +186,7 @@ function getRandomID(callback){
 
 var getRandomColor = function() {
 	var colors = ["#44336","#E91E63","#9C27B0","#673AB7","#3F51B5","#2196F3","#03A9F4","#00BCD4","#009688","#4CAF50","#8BC34A","#CDDC39","#FFEB3B","#FFC107","#FF9800","#FF5722","#795548","#9E9E9E","#607D8B","#000000"];
-	var randomNum = Math.floor(Math.random() * ( 19 + 1));
+	var randomNum = random(0,19);
 	return colors[randomNum];
 }
 
@@ -215,12 +215,17 @@ function checkBullet (results){
 
 	console.log(results['content']);
 
-	var innerType = ['linear','bomb'];
-	var type = innerType[Math.floor(Math.random() * ( 1 + 1))];
+
+
+
+	var type = function(){
+		var innerType = ['linear','bomb'];
+		return innerType[random(0,1)];
+	}
 	var color = getRandomColor();
 	var nickname = results['nickname'];//保留
 	var content = results['content'];
-	var duration = 3000 + Math.floor(Math.random() * ( 2000 + 1));//3000-5000
+	var duration = random(3000,5000);//3000-5000
 	var fontsize = 10000.0 / duration;
 
 	bullet.color = color;
@@ -316,6 +321,12 @@ function getTime (clientID,callback){
 		}
 	});
 }
+
+
+function random (min,max) {
+	return min + Math.floor(Math.random() * ( max + 1));
+}
+
 
 exports.getLuck = getLuck;
 exports.getWeixin = getWeixin;
