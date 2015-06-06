@@ -111,6 +111,7 @@ wechat.on('voice', function(session) {
 			console.log(bullet);
 			ws.send(JSON.stringify(bullet));
 		};
+
 		var heartTimer = setInterval(function(){
 			var empty = {
 			  type: "text",
@@ -123,18 +124,17 @@ wechat.on('voice', function(session) {
 			ws.send(JSON.stringify(empty));//发送心跳包防止WebSocket断开
 		},1000*60*5);
 
-		ws.on('open',function open(){
-			getTime(uuid,function(time){
-				getBullet(time,function(results){
-					if (results){
-						for (var i = 0; i < results.length; i++) {
-							var bullet = checkBullet(results[i]);
-							ws.send(JSON.stringify(bullet));
-						};
-					}
-				});
+		emitter.addListener('bullet come',sendBullet);//加入对字幕请求的监听器
+
+		getTime(uuid,function(time){
+			getBullet(time,function(results){
+				if (results){
+					for (var i = 0; i < results.length; i++) {
+						var bullet = checkBullet(results[i]);
+						ws.send(JSON.stringify(bullet));
+					};
+				}
 			});
-			emitter.addListener('bullet come',sendBullet);//加入对字幕请求的监听器
 		});
 
 		ws.on('message', function incoming(message) {
@@ -142,7 +142,7 @@ wechat.on('voice', function(session) {
 				message = JSON.parse(message);
 				var result = checkBullet(message);
 				if (result){
-					ws.send(JSON.stringify(result));
+					emitter.emit('bullet come',result);
 					saveBullet(result);
 				}
 			}
