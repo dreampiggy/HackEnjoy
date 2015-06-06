@@ -21,7 +21,9 @@ app.post('/weixin', wechat.handleRequest.bind(wechat));
 
 
 wechat.on('text', function(session) {
-  session.replyTextMsg('Hello World');
+  var json = session.incomingMessage;
+  console.log(json);
+  session.replyTextMsg('发送成功!');
 });
 wechat.on('image', function(session) {
   session.replyNewsMsg([{
