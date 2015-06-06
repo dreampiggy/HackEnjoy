@@ -70,7 +70,7 @@ wechat.on('voice', function(session) {
 			ws.send(JSON.stringify(sendJSON));//加入判断
 		};
 
-		ws.on('open'), function open(){
+		ws.on('open', function open(){
 			var heartTimer = setInterval(function(){
 				ws.send('');//发送心跳包防止WebSocket断开
 			},1000*60*3);
@@ -87,7 +87,7 @@ wechat.on('voice', function(session) {
 					}
 				});
 			});
-		}
+		});
 
 		ws.on('message', function incoming(message) {
 			console.log(message);
@@ -108,7 +108,7 @@ wechat.on('voice', function(session) {
 			emitter.removeListener('bullet come',sendBullet);//取消监听器
 			clearInterval(heartTimer);//取消心跳包
 			saveTime(uuid);
-		})
+		});
 	});
 })();
 
