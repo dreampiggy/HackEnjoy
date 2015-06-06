@@ -226,7 +226,7 @@ function checkBullet (results){
 	})();
 	var content = results['content'];
 	var nickname = results['nickname'];//保留
-	var color = 'black';
+	var color = '';
 	if (!judgeEmoji(content)){
 		color = getRandomColor();//not emoji
 	}
