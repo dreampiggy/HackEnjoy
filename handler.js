@@ -57,30 +57,30 @@ wechat.on('text', function(session) {
 	var json = session.incomingMessage;
 	var openid = json.FromUserName;
 
-	request
-	.get('https://api.weixin.qq.com/cgi-bin/user/info')
-	.query({
-		access_token: appToken,
-		openid: openid,
-		lang: 'zh_CN'
-	})
-	.end(function(err,res) {
-		if (err){
-			console.log('weixin nickname error')
-			return;
-		}
-		var nickname = res.body['nickname'];
-		var content = json.Content;
+	// request
+	// .get('https://api.weixin.qq.com/cgi-bin/user/info')
+	// .query({
+	// 	access_token: appToken,
+	// 	openid: openid,
+	// 	lang: 'zh_CN'
+	// })
+	// .end(function(err,res) {
+	// 	if (err){
+	// 		//没申请微信认证
+	// 	}
+	// })
 
-		var result = {
-			nickname: nickname,
-			content: content
-		}
-		var bullet = checkBullet(result);
+	var nickname = '微信用户:' + openid;
+	var content = json.Content;
 
-		emitter.emit('bullet come',bullet);
-		// session.replyTextMessage('文字弹幕已上膛发射！');
-	})
+	var result = {
+		nickname: nickname,
+		content: content
+	}
+	var bullet = checkBullet(result);
+
+	emitter.emit('bullet come',bullet);
+	// session.replyTextMessage('文字弹幕已上膛发射！');
 });
 
 wechat.on('image', function(session) {
