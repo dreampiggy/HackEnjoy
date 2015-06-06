@@ -1,7 +1,8 @@
 var connection = require('./config');
 var request = require('superagent');
 var events = require("events");
-var io = require('socket.io')(3000);
+var WebSocketServer = WebSocket.Server
+var wss = new WebSocketServer({ port: 3000 });
 var Wechat = require('nodejs-wechat');
 var emitter = new events.EventEmitter();
 
@@ -71,7 +72,7 @@ wechat.on('voice', function(session) {
 
 
 (function websocket(){
-	io.on('connection', function connection(ws) {
+	wss.on('connection', function connection(ws) {
 		console.log('WebSocket start!');
 
 		var sendBullet = function(bullet){
