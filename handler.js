@@ -348,7 +348,7 @@ function random (min,max) {
 
 function judgeEmoji(string){
 	if (string.length > 0){
-		var a = string.charCode(0);
+		var a = string.charCodeAt(0);
 		if ((0xE001<a<0xE05A)||(0xE101<a<0xE15A)||(0xE201<a<0xE253)||(0xE301<a<0xE34D)||(0xE401<a<0xE44C)||(0xE501<a<0xE537)){
 			return true;
 		}
