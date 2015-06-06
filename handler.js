@@ -123,18 +123,19 @@ wechat.on('voice', function(session) {
 			ws.send(JSON.stringify(empty));//发送心跳包防止WebSocket断开
 		},1000*60*5);
 
-		emitter.addListener('bullet come',sendBullet);//加入对字幕请求的监听器
-
-		getTime(uuid,function(time){
-			getBullet(time,function(results){
-				if (results){
-					for (var i = 0; i < results.length; i++) {
-						var bullet = checkBullet(results[i]);
-						ws.send(JSON.stringify(bullet));
-					};
-				}
+		ws.on('open'),function open(){
+			getTime(uuid,function(time){
+				getBullet(time,function(results){
+					if (results){
+						for (var i = 0; i < results.length; i++) {
+							var bullet = checkBullet(results[i]);
+							ws.send(JSON.stringify(bullet));
+						};
+					}
+				});
 			});
-		});
+			emitter.addListener('bullet come',sendBullet);//加入对字幕请求的监听器
+		}
 
 		ws.on('message', function incoming(message) {
 			try{
@@ -228,6 +229,7 @@ function checkBullet (results){
 	var duration = random(3000,5000);//3000-5000
 	var fontsize = 10000.0 / duration;
 
+	bullet.type = type;
 	bullet.color = color;
 	bullet.fontsize = fontsize;
 	bullet.content = content;
