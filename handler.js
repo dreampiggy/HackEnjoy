@@ -187,7 +187,7 @@ function getRandomID(callback){
 
 var getRandomColor = function() {
 	var colors = ['#FFE300','#FFFFFF','#48FFD1','red','#FF530D'];
-	var randomNum = random(0,5);
+	var randomNum = random(0,4);
 	return colors[randomNum];
 }
 
@@ -239,7 +239,7 @@ function checkBullet (results){
 			return random(3000,4000);
 		}
 	})();
-	var fontsize = random(3,5) / 2.0;
+	var fontsize = random(15,25) / 10.0;
 
 	bullet.type = type;
 	bullet.color = color;
